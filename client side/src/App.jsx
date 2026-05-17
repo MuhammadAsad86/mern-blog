@@ -12,6 +12,7 @@ import PostPage from './pages/Postpage'
 import UpdatePost from './pages/UpdatPost'
 
 import Header from './components/Header'
+import Footer from './components/Footer'
 
 import PrivateRoute from './components/PrivateRoute'
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute'
@@ -77,6 +78,8 @@ export default function App() {
         </Route>
 
       </Routes>
+
+      <Footer />
 
     </BrowserRouter>
 
