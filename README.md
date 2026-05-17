@@ -129,7 +129,7 @@ CLOUDINARY_API_SECRET=your_cloudinary_secret
 . Start Backend Server
 
 ```bash
-npm run dev
+node index.js
 ```
 
 . Start Frontend
