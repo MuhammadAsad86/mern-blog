@@ -9,7 +9,7 @@ import authRoutes from "./routes/auth.route.js";
 import postRoutes from "./routes/post.route.js";
 import commentRoutes from "./routes/comment.route.js";
 import uploadRoute from "./routes/upload.route.js";
-
+import path from 'path';
 dotenv.config();
 
 mongoose
@@ -29,6 +29,8 @@ mongoose.connection.on("error", (err) => {
   console.log("Database error:", err);
 });
 
+const __dirname=path.resolve();
+
 const app = express();
 
 app.use(
@@ -45,6 +47,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("/api/upload", uploadRoute);
+
 
 // Error handler
 app.use((err, req, res, next) => {

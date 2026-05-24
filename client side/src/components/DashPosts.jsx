@@ -15,7 +15,9 @@ export default function DashPosts() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch("/api/post/getposts");
+        const res = await fetch("/api/post/getposts", {
+          credentials: "include",  // ✅ fix
+        });
         const data = await res.json();
         if (res.ok) {
           setUserPosts(data.posts);
@@ -34,7 +36,9 @@ export default function DashPosts() {
   const handleShowMore = async () => {
     try {
       const startIndex = userPosts.length;
-      const res = await fetch(`/api/post/getposts?startIndex=${startIndex}`);
+      const res = await fetch(`/api/post/getposts?startIndex=${startIndex}`, {
+        credentials: "include",  // ✅ fix
+      });
       const data = await res.json();
       if (res.ok) {
         setUserPosts((prev) => [...prev, ...data.posts]);
@@ -50,7 +54,10 @@ export default function DashPosts() {
     try {
       const res = await fetch(
         `/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
-        { method: "DELETE" }
+        {
+          method: "DELETE",
+          credentials: "include",  // ✅ fix
+        }
       );
       const data = await res.json();
       if (!res.ok) {
@@ -102,7 +109,6 @@ export default function DashPosts() {
                 <th className="w-[140px] px-4 py-3 text-left font-semibold">
                   CATEGORY
                 </th>
-                {/* ✅ Sirf admin ko headers dikhao */}
                 {currentUser?.isAdmin && (
                   <th className="w-[90px] px-4 py-3 text-left font-semibold">
                     DELETE
@@ -144,7 +150,6 @@ export default function DashPosts() {
                   <td className="px-4 py-4 text-sm text-gray-500 capitalize align-middle">
                     {post.category}
                   </td>
-                  {/* ✅ Sirf admin ko Delete dikhao */}
                   {currentUser?.isAdmin && (
                     <td className="px-4 py-4 align-middle">
                       <button
@@ -158,7 +163,6 @@ export default function DashPosts() {
                       </button>
                     </td>
                   )}
-                  {/* ✅ Sirf admin ko Edit dikhao */}
                   {currentUser?.isAdmin && (
                     <td className="px-4 py-4 align-middle">
                       <Link

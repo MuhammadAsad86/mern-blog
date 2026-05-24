@@ -14,15 +14,12 @@ export default function Comment({
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
 
-  // Fetch comment author's user data
   useEffect(() => {
     const getUser = async () => {
       try {
         const res = await fetch(`/api/user/${comment.userId}`);
         const data = await res.json();
-        if (res.ok) {
-          setUser(data);
-        }
+        if (res.ok) setUser(data);
       } catch (error) {
         console.log(error.message);
       }
@@ -30,29 +27,27 @@ export default function Comment({
     getUser();
   }, [comment]);
 
-  // Enable edit mode
   const handleEdit = () => {
     setIsEditing(true);
     setEditedContent(comment.content);
   };
 
-  // Cancel editing without saving
   const handleCancelEdit = () => {
     setIsEditing(false);
     setEditedContent(comment.content);
   };
 
-  // Save edited comment to backend
   const handleSave = async () => {
     try {
-      const res = await fetch(`/api/comment/editComment/${comment._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ content: editedContent }),
-      });
-
+      const res = await fetch(
+        `/api/comment/editComment/${comment._id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include", // ✅ add kiya
+          body: JSON.stringify({ content: editedContent }),
+        }
+      );
       if (res.ok) {
         setIsEditing(false);
         onEdit(comment, editedContent);
@@ -65,7 +60,7 @@ export default function Comment({
   return (
     <div className="flex items-start gap-3 border-b border-gray-200 py-4">
 
-      {/* User profile picture */}
+      {/* Profile picture */}
       <div className="w-10 h-10 rounded-full border-2 border-gray-500 overflow-hidden flex-shrink-0">
         <img
           src={
@@ -79,7 +74,7 @@ export default function Comment({
 
       <div className="flex-1">
 
-        {/* Username and timestamp */}
+        {/* Username + time */}
         <div className="flex items-center mb-1 gap-2">
           <span className="font-bold text-xs truncate">
             {user ? `@${user.username}` : "anonymous user"}
@@ -89,7 +84,7 @@ export default function Comment({
           </span>
         </div>
 
-        {/* Edit mode: show textarea, otherwise show comment text */}
+        {/* Edit mode */}
         {isEditing ? (
           <>
             <textarea
@@ -121,15 +116,16 @@ export default function Comment({
           <p className="text-gray-500 pb-2">{comment.content}</p>
         )}
 
-        {/* Like, Edit, Delete actions */}
+        {/* Actions */}
         <div className="flex items-center gap-2 mt-2">
 
-          {/* Like button — turns blue if current user already liked */}
+          {/* Like */}
           <button
             type="button"
             onClick={() => onLike(comment._id)}
             className={`cursor-pointer text-gray-400 hover:text-blue-500 ${
-              currentUser && comment.likes.includes(currentUser._id)
+              currentUser &&
+              comment.likes.includes(currentUser._id) // ✅ _id use karo
                 ? "!text-blue-500"
                 : ""
             }`}
@@ -137,7 +133,7 @@ export default function Comment({
             <FaThumbsUp className="text-sm" />
           </button>
 
-          {/* Like count — hidden if 0 likes */}
+          {/* Like count */}
           <p className="text-gray-400 text-xs">
             {comment.numberOfLikes > 0 &&
               `${comment.numberOfLikes} ${
@@ -145,7 +141,7 @@ export default function Comment({
               }`}
           </p>
 
-          {/* Edit and Delete — only visible to comment owner or admin */}
+          {/* ✅ Edit/Delete — _id se compare karo */}
           {currentUser &&
             (String(currentUser._id) === String(comment.userId) ||
               currentUser.isAdmin) && (

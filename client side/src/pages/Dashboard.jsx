@@ -1,4 +1,3 @@
-// Dashboard.jsx
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -28,7 +27,9 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch("/api/user/getusers?limit=5");
+        const res = await fetch("/api/user/getusers?limit=5", {
+          credentials: "include",  // ✅ fix
+        });
         const data = await res.json();
         if (res.ok) {
           setUsers(data.users);
@@ -42,7 +43,9 @@ export default function Dashboard() {
 
     const fetchPosts = async () => {
       try {
-        const res = await fetch("/api/post/getposts?limit=5");
+        const res = await fetch("/api/post/getposts?limit=5", {
+          credentials: "include",  // ✅ fix
+        });
         const data = await res.json();
         if (res.ok) {
           setPosts(data.posts);
@@ -56,7 +59,9 @@ export default function Dashboard() {
 
     const fetchComments = async () => {
       try {
-        const res = await fetch("/api/comment/getcomments?limit=5");
+        const res = await fetch("/api/comment/getcomments?limit=5", {
+          credentials: "include",  // ✅ fix
+        });
         const data = await res.json();
         if (res.ok) {
           setComments(data.comments);

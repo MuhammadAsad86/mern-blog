@@ -68,7 +68,8 @@ export const signin = async (req, res, next) => {
 
     const token = jwt.sign(
       { id: validUser._id, isAdmin: validUser.isAdmin },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
+      { expiresIn: "30d" }  // ✅ 30 din
     );
 
     const { password: pass, ...rest } = validUser._doc;
@@ -77,8 +78,9 @@ export const signin = async (req, res, next) => {
       .status(200)
       .cookie("access_token", token, {
         httpOnly: true,
-        sameSite: "lax",  // ✅ add
-        secure: false,    // ✅ add
+        sameSite: "lax",
+        secure: false,
+        maxAge: 30 * 24 * 60 * 60 * 1000,  // ✅ 30 din
       })
       .json(rest);
 
@@ -94,7 +96,8 @@ export const google = async (req, res, next) => {
     if (user) {
       const token = jwt.sign(
         { id: user._id, isAdmin: user.isAdmin },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
+        { expiresIn: "30d" }  // ✅ 30 din
       );
 
       const { password, ...rest } = user._doc;
@@ -103,8 +106,9 @@ export const google = async (req, res, next) => {
         .status(200)
         .cookie("access_token", token, {
           httpOnly: true,
-          sameSite: "lax",  // ✅ add
-          secure: false,    // ✅ add
+          sameSite: "lax",
+          secure: false,
+          maxAge: 30 * 24 * 60 * 60 * 1000,  // ✅ 30 din
         })
         .json(rest);
 
@@ -130,7 +134,8 @@ export const google = async (req, res, next) => {
 
       const token = jwt.sign(
         { id: newUser._id, isAdmin: newUser.isAdmin },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
+        { expiresIn: "30d" }  // ✅ 30 din
       );
 
       const { password, ...rest } = newUser._doc;
@@ -139,8 +144,9 @@ export const google = async (req, res, next) => {
         .status(200)
         .cookie("access_token", token, {
           httpOnly: true,
-          sameSite: "lax",  // ✅ add
-          secure: false,    // ✅ add
+          sameSite: "lax",
+          secure: false,
+          maxAge: 30 * 24 * 60 * 60 * 1000,  // ✅ 30 din
         })
         .json(rest);
     }
