@@ -9,7 +9,7 @@ import {
   getcomments,
 } from "../controllers/comment.controller.js";
 
-import { verifyToken } from "../utils/verifyUser.js";
+import { verifyToken } from "../utils/VerifyUser.js";
 
 const router = express.Router();
 
