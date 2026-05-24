@@ -3,42 +3,38 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
 import postRoutes from "./routes/post.route.js";
 import commentRoutes from "./routes/comment.route.js";
 import uploadRoute from "./routes/upload.route.js";
-import path from 'path';
+
 dotenv.config();
 
 mongoose
   .connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log("MongoDB connected successfully");
-  })
-  .catch((err) => {
-    console.log("Mongo connection error:", err);
-  });
+  .then(() => console.log("MongoDB connected successfully"))
+  .catch((err) => console.log("Mongo connection error:", err));
 
-mongoose.connection.on("connected", () => {
-  console.log("Database connected");
-});
+mongoose.connection.on("connected", () => console.log("Database connected"));
+mongoose.connection.on("error", (err) => console.log("Database error:", err));
 
-mongoose.connection.on("error", (err) => {
-  console.log("Database error:", err);
-});
-
-const __dirname=path.resolve();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
+// ✅ CORS — production URL add karo
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -47,7 +43,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("/api/upload", uploadRoute);
-
 
 // Error handler
 app.use((err, req, res, next) => {
@@ -60,6 +55,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(5000, () => {
-  console.log("Server is running on port 5000");
+// ✅ PORT — Railway ka port use karo
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
