@@ -36,9 +36,9 @@ export default function CallToAction() {
       <div className="p-5 flex-1">
 
         <img
-          src="https://images.unsplash.com/photo-1555066931-4365d14bab8c"
+          src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png"
           alt="JavaScript"
-          className="rounded-xl"
+          className="rounded-xl w-full h-auto"
         />
 
       </div>

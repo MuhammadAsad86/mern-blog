@@ -53,8 +53,8 @@ export default function Home() {
               Check out these resources with JavaScript projects
             </p>
             {/* External link to YouTube resources */}
-            
-              <a href="https://www.youtube.com/watch?v=G3e-cpL7ofc"
+
+            <a href="https://www.youtube.com/watch?v=G3e-cpL7ofc"
               target="_blank"
               rel="noopener noreferrer"
               className="text-teal-500 font-bold hover:underline"
@@ -64,9 +64,9 @@ export default function Home() {
           </div>
           <div className="p-7 flex-1">
             <img
-              src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-              alt="Web development resources"
-              className="rounded-lg"
+              src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png"
+              alt="JavaScript"
+              className="w-40 h-40 object-contain mx-auto"
             />
           </div>
         </div>
