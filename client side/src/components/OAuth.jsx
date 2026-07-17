@@ -27,7 +27,7 @@ export default function OAuth() {
       const resultFromGoogle =
         await signInWithPopup(auth, provider);
 
-      const res = await fetch("http://localhost:5000/api/auth/google",
+      const res = await fetch("https://mern-blog-d9wm.vercel.app/api/auth/google",
         {
           method: "POST",
 

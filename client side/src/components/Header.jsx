@@ -50,7 +50,7 @@ export default function Header() {
 
   const handleSignout = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/user/signout", {
+      const res = await fetch("https://mern-blog-d9wm.vercel.app", {
         method: "POST",
         credentials: "include",
       });
