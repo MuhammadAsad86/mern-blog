@@ -1,65 +1,37 @@
-import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
-import cors from "cors";
+import app from "./app.js";
 
-import userRoutes from "./routes/user.route.js";
-import authRoutes from "./routes/auth.route.js";
-import postRoutes from "./routes/post.route.js";
-import commentRoutes from "./routes/comment.route.js";
-import uploadRoute from "./routes/upload.route.js";
-import path from 'path';
 dotenv.config();
 
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log("MongoDB connected successfully");
-  })
-  .catch((err) => {
-    console.log("Mongo connection error:", err);
+let isConnected = false;
+
+const connectDB = async () => {
+  if (isConnected) return;
+
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+    isConnected = true;
+    console.log("MongoDB Connected");
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+// Vercel Serverless Function
+export default async function handler(req, res) {
+  await connectDB();
+  return app(req, res);
+}
+
+// Local Development
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 5000;
+
+  connectDB().then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
   });
-
-mongoose.connection.on("connected", () => {
-  console.log("Database connected");
-});
-
-mongoose.connection.on("error", (err) => {
-  console.log("Database error:", err);
-});
-
-const __dirname=path.resolve();
-
-const app = express();
-
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
-app.use(express.json());
-app.use(cookieParser());
-
-app.use("/api/user", userRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/post", postRoutes);
-app.use("/api/comment", commentRoutes);
-app.use("/api/upload", uploadRoute);
-
-
-// Error handler
-app.use((err, req, res, next) => {
-  console.log(err);
-  const statusCode = err.statusCode || 500;
-  res.status(statusCode).json({
-    success: false,
-    statusCode,
-    message: err.message || "Internal server error",
-  });
-});
-
-app.listen(5000, () => {
-  console.log("Server is running on port 5000");
-});
+}
