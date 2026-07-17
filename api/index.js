@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import app from "./app.js";
 
 dotenv.config();
+mongoose.set("bufferCommands", false);
 
 let isConnected = false;
 
@@ -10,7 +11,9 @@ const connectDB = async () => {
   if (isConnected) return;
 
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGODB_URI, {
+  serverSelectionTimeoutMS: 5000,
+});
     isConnected = true;
     console.log("MongoDB Connected");
   } catch (error) {
