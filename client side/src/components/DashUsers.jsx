@@ -14,7 +14,7 @@ export default function DashUsers() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch("/api/user/getusers", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/getusers`, {
           credentials: "include",
         });
         const data = await res.json();

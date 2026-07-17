@@ -9,7 +9,9 @@ export default function Home() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch("/api/post/getposts?limit=9");
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/post/getposts?limit=9`
+        );
         const data = await res.json();
         if (res.ok) {
           setPosts(data.posts);

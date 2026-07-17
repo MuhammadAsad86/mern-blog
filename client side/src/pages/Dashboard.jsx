@@ -27,7 +27,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch("/api/user/getusers?limit=5", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/getusers?limit=5`, {
           credentials: "include",  // ✅ fix
         });
         const data = await res.json();
@@ -43,7 +43,7 @@ export default function Dashboard() {
 
     const fetchPosts = async () => {
       try {
-        const res = await fetch("/api/post/getposts?limit=5", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/getposts?limit=5`, {
           credentials: "include",  // ✅ fix
         });
         const data = await res.json();
@@ -59,7 +59,7 @@ export default function Dashboard() {
 
     const fetchComments = async () => {
       try {
-        const res = await fetch("/api/comment/getcomments?limit=5", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/getcomments?limit=5`, {
           credentials: "include",  // ✅ fix
         });
         const data = await res.json();

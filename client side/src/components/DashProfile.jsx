@@ -41,7 +41,8 @@ export default function DashProfile() {
       setImageUploading(true);
       const data = new FormData();
       data.append("image", file);
-      const res = await fetch("/api/upload", {
+      
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/upload`, {
         method: "POST",
         credentials: "include",
         body: data,
@@ -82,7 +83,7 @@ export default function DashProfile() {
     try {
       dispatch(updateStart());
 
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/update/${currentUser._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -109,7 +110,7 @@ export default function DashProfile() {
     setShowModal(false);
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/delete/${currentUser._id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -127,7 +128,7 @@ export default function DashProfile() {
 
   const handleSignout = async () => {
     try {
-      const res = await fetch("/api/user/signout", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/signout`, {
         method: "POST",
         credentials: "include",
       });

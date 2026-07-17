@@ -39,7 +39,7 @@ export default function CreatePost() {
 
       data.append("image", imageFile);
 
-      const res = await fetch("/api/upload", {
+      fetch(`${import.meta.env.VITE_API_URL}/api/upload`, {
         method: "POST",
         credentials: "include",
         body: data,
@@ -97,8 +97,7 @@ export default function CreatePost() {
 
       console.log(formData);
 
-      const res = await fetch("/api/post/create", {
-
+      fetch(`${import.meta.env.VITE_API_URL}/api/post/create`, {
         method: "POST",
 
         headers: {

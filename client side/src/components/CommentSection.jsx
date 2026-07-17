@@ -38,7 +38,7 @@ export default function CommentSection({ postId }) {
     if (!comment.trim()) return;
 
     try {
-      const res = await fetch("/api/comment/create", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

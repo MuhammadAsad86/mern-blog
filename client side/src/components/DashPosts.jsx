@@ -15,7 +15,7 @@ export default function DashPosts() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch("/api/post/getposts", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/getposts`, {
           credentials: "include",  // ✅ fix
         });
         const data = await res.json();
@@ -36,7 +36,7 @@ export default function DashPosts() {
   const handleShowMore = async () => {
     try {
       const startIndex = userPosts.length;
-      const res = await fetch(`/api/post/getposts?startIndex=${startIndex}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/getposts?startIndex=${startIndex}`, {
         credentials: "include",  // ✅ fix
       });
       const data = await res.json();
